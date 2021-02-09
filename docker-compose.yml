@@ -1,0 +1,42 @@
+version: '3'
+volumes:
+  mysql-data:
+    driver: local
+  bundle:
+    driver: local
+services:
+  db:
+    image: mysql:5.7.18
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+  redis:
+    image: redis
+  web:
+    build: .
+    volumes:
+      - .:/home/app
+    links:
+      - "db:db"
+    stdin_open: true
+    tty: true
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      RAILS_ENV: development
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    command: /start_app.sh
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    volumes:
+      - .:/wallet_api
+    depends_on:
+      - db
+      - redis
