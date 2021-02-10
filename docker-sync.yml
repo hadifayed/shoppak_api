@@ -1,0 +1,13 @@
+version: '2'
+
+options:
+  compose-dev-file-path: 'docker-compose-dev.yml'
+  verbose: true
+  max-attempt: 30
+  external: true
+syncs:
+  wallet-api-syncc:
+    src: './'
+    sync_strategy: 'native'
+    host_disk_mount_mode: 'cached'
+    sync_excludes: ['log']

@@ -18,7 +18,7 @@ services:
   web:
     build: .
     volumes:
-      - .:/home/app
+      - .:/myapp
     links:
       - "db:db"
     stdin_open: true

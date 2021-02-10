@@ -1,0 +1,8 @@
+version: '3'
+volumes:
+  wallet-api-sync:
+    external: true
+services:
+  web:
+    volumes:
+      - wallet-api-sync:/myapp
