@@ -20,14 +20,14 @@ gem 'jbuilder', '~> 2.7'
 # gem 'image_processing', '~> 1.2'
 
 # Devise gem for auth
-gem 'devise'
+gem 'devise', '~> 4.7'
 gem 'devise_token_auth'
 
 # sidekiq gem for backgroundjob
-gem 'sidekiq'
+gem 'sidekiq', '~> 5.2.7'
 
 # twilio gem for twilio integration
-gem 'twilio-ruby'
+gem 'twilio-ruby', '~> 5.46.1'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
