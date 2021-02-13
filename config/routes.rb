@@ -6,5 +6,6 @@ Rails.application.routes.draw do
     end
     resource :registration, only: [:create], path: '/auth', controller: 'registrations'
   end
+  resources :transactions, only: [:index, :create]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

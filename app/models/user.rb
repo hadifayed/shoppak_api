@@ -8,10 +8,14 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
   #-------------------------------- Call-Backs -----------------------------------
   before_validation :set_defaults, on: :create
+  #-------------------------------- Associations -----------------------------------
+  has_many :received_transactions, class_name: 'Transaction', foreign_key: :receiver_id
+  has_many :sent_transactions, class_name: 'Transaction', foreign_key: :sender_id
   #-------------------------------- Validations -----------------------------------
   validates :name, :phone_number, presence: true
   validates :password, presence: true, on: :create
   validates :phone_number, format: /\A[+][0-9]+\Z/, uniqueness: { case_sensitive: true }
+  validates :available_credit, numericality: { greater_than_or_equal_to: 0 }
 
   private
 

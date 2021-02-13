@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_11_194313) do
+ActiveRecord::Schema.define(version: 2021_02_12_221104) do
+
+  create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "amount", null: false
+    t.bigint "receiver_id", null: false
+    t.bigint "sender_id", null: false
+    t.datetime "confirmed_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["receiver_id"], name: "index_transactions_on_receiver_id"
+    t.index ["sender_id"], name: "index_transactions_on_sender_id"
+  end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "provider", default: "phone_number", null: false
@@ -27,4 +38,6 @@ ActiveRecord::Schema.define(version: 2021_02_11_194313) do
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
   end
 
+  add_foreign_key "transactions", "users", column: "receiver_id"
+  add_foreign_key "transactions", "users", column: "sender_id"
 end
