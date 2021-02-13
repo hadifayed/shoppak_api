@@ -8,7 +8,7 @@ class TransactionHandlerService
   def handle_creation
     response = nil
     result = ActiveRecord::Base.transaction do
-      transaction.save
+      raise ActiveRecord::Rollback if !transaction.save
       response = CreditModifierService.new(user: transaction.sender,
                                            operation: CreditModifierService::OPERATIONS[:deduct],
                                            fields: CreditModifierService::FIELDS[:available_credit],

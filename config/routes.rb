@@ -7,5 +7,9 @@ Rails.application.routes.draw do
     resource :registration, only: [:create], path: '/auth', controller: 'registrations'
   end
   resources :transactions, only: [:index, :create]
+  scope '/twilio' do
+    post "/ask_for_confirmation", to: "twilio#ask_for_confirmation"
+    post "/submit_confirmation", to: "twilio#submit_confirmation"
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

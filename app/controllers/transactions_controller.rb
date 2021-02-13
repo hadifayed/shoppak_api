@@ -10,8 +10,10 @@ class TransactionsController < ApplicationController
     transaction = Transaction.new(transaction_params.merge(sender_id: current_user.id))
     response = TransactionHandlerService.new(transaction: transaction).handle_creation
     if response[:success]
+      ConfirmationCallWorker.perform_in(10.seconds, response[:transaction].sender.phone_number)
       DestroyTransactionWorker.perform_in(5.minutes, response[:transaction].id)
-      render json: response[:transaction], status: :created
+      render json: {msg: 'Your transaction is pending, you will receive a phone call shortly to confirm it'},
+             status: :created
     else
       render json: response[:errors], status: :unprocessable_entity
     end

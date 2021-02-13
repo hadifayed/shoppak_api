@@ -1,6 +1,6 @@
 class DestroyTransactionWorker
   include Sidekiq::Worker
   def perform(transaction_id)
-    notification_class_name.camelize.constantize.send_notification(notification_params.deep_symbolize_keys!)
+    TransactionHandlerService.new(transaction: Transaction.find(transaction_id)).handle_deleteion
   end
 end
