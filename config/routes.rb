@@ -11,5 +11,6 @@ Rails.application.routes.draw do
     post "/ask_for_confirmation", to: "twilio#ask_for_confirmation"
     post "/submit_confirmation", to: "twilio#submit_confirmation"
   end
+  get '/my_wallet', to: 'users#my_wallet'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
