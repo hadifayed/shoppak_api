@@ -8,10 +8,12 @@ class TransactionsController < ApplicationController
 
   def create
     transaction = Transaction.new(transaction_params.merge(sender_id: current_user.id))
-    if transaction.save
-      render json: transaction, status: :created
+    response = TransactionHandlerService.new(transaction: transaction).handle_creation
+    if response[:success]
+      DestroyTransactionWorker.perform_in(5.minutes, response[:transaction].id)
+      render json: response[:transaction], status: :created
     else
-      render json: transaction.errors, status: :unprocessable_entity
+      render json: response[:errors], status: :unprocessable_entity
     end
   end
 
