@@ -19,13 +19,13 @@ class User < ActiveRecord::Base
 
   private
 
-  # here we override the method that checks for enabling record lock
+  # overriding locking_enabled method to prevent incrementing the lock version for unnecessary changes
   def locking_enabled?
-    super && deducting_form_available_credit?
+    super && credit_fields_changed?
   end
 
-  def deducting_form_available_credit?
-    !self.id.nil? && self.available_credit_changed? && self.available_credit_was > self.available_credit
+  def credit_fields_changed?
+    self.persisted? && (self.credit_changed? || self.available_credit_changed?)
   end
 
   def set_defaults

@@ -8,11 +8,10 @@ class Transaction < ApplicationRecord
   validate :sender_is_not_the_receiver
 
   private
+
   def sender_is_not_the_receiver
     return if sender_id.nil? || receiver_id.nil?
 
     errors.add(:base, "You can't make a transaction for yourself") if sender_id == receiver_id
   end
-
-
 end
