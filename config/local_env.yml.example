@@ -1,1 +1,4 @@
 NGROK_URL: 'place ngrok url'
+TWILIO_ACCOUNT_SID: 'place twilio account_sid'
+TWILIO_AUTH_TOKEN: 'place twilio auth_token'
+TWILIO_PHONE_NUMBER: 'place twilio phone_number'

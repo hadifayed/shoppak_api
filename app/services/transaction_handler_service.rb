@@ -16,6 +16,8 @@ class TransactionHandlerService
       raise ActiveRecord::Rollback if !response[:success]
     end
     if response.try(:[], :success) && transaction.persisted?
+      ConfirmationCallWorker.perform_in(10.seconds, response[:transaction].sender.phone_number)
+      DestroyTransactionWorker.perform_in(5.minutes, response[:transaction].id)
       { success: true, errors: [], transaction: transaction }
     else
       errors = transaction.errors.full_messages
